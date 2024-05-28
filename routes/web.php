@@ -39,7 +39,7 @@ Route::middleware([
             'user' => $user,
             'messages' => $messages,
         ]);
-    });
+    })->name('messages');
 
     Route::post('message', function () {
         $message = Message::create([
@@ -48,14 +48,14 @@ Route::middleware([
         ]);
 
         SendMessage::dispatch($message);
-    });
+    })->name('message');
 
     Route::get('launcher', function () {
         Artisan::call('queue:work --queue=high,default --stop-when-empty');
         Artisan::call('reverb:start');
 
         return Inertia::render('Message/Index');
-    });
+    })->name('launch');
 
     Route::get('stop', function () {
         Artisan::call('queue:clear');
@@ -64,5 +64,5 @@ Route::middleware([
         return Inertia::render('Dashboard',
             ['message' => 'Reverb stopped']
         );
-    });
+    })->name('stop');
 });
