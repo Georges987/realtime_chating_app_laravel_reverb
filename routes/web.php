@@ -48,6 +48,8 @@ Route::middleware([
         ]);
 
         SendMessage::dispatch($message);
+
+        return Inertia::render('Message/Index');
     })->name('message');
 
     Route::get('launcher', function () {
@@ -55,7 +57,7 @@ Route::middleware([
         Artisan::call('reverb:start');
 
         return Inertia::render('Message/Index');
-    })->name('launch');
+    })->name('launcher');
 
     Route::get('stop', function () {
         Artisan::call('queue:clear');
